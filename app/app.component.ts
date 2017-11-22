@@ -17,14 +17,14 @@ import { AuthenticationService } from './_services/index';
 		<div class="navBar">
 			<ul id="navBarList">
 				<li id="navBarHome"><a routerLink="/login" routerLinkActive="active" (click)="changeHeader('Login', false, false, false, false);">Home</a></li>
-				<li *ngIf="isLogged[isLogged.length-1]" id="navBarItems"><a routerLink="/items" routerLinkActive="active" (click)="changeHeader('Items', true, false, false, false);">Items</a></li>
-				<li *ngIf="isLogged[isLogged.length-1]" id="navBarSearch"><a routerLink="/search" routerLinkActive="active" (click)="changeHeader('Search', false, false, false, false);">Search</a></li>
-				<li *ngIf="isLogged[isLogged.length-1]" id="navBarMesages"><a routerLink="/messages" routerLinkActive="active" (click)="changeHeader('Messages', false, false, true, false);">Messages</a></li>
-				<li *ngIf="isLogged[isLogged.length-1]" id="navBarContracts"><a routerLink="/contracts" routerLinkActive="active" (click)="changeHeader('Contracts', false, false, false, false);">Contracts</a></li>
-				<li *ngIf="isLogged[isLogged.length-1]" id="navBarSettings"><a routerLink="/settings" routerLinkActive="active" (click)="changeHeader('Settings', false, false, false, false);">Settings</a></li>
-				<li *ngIf="isLogged[isLogged.length-1]" id="navBarAccount"><a routerLink="/account" routerLinkActive="active" (click)="changeHeader('Account', false, false, false, false);">Account</a></li>
-				<li *ngIf="isLogged[isLogged.length-1]" id="navBarAbout"><a routerLink="/about" routerLinkActive="active" (click)="changeHeader('About', false, false, false, false);">About</a></li>
-				<li *ngIf="isLogged[isLogged.length-1]" id="navBarLogout"><a routerLink="/logout" routerLinkActive="active" (click)="changeHeader('Logout', false, false, false, false);">Logout</a></li>
+				<li *ngIf="isLogged[0]" id="navBarItems"><a routerLink="/items" routerLinkActive="active" (click)="changeHeader('Items', true, false, false, false);">Items</a></li>
+				<li *ngIf="isLogged[0]" id="navBarSearch"><a routerLink="/search" routerLinkActive="active" (click)="changeHeader('Search', false, false, false, false);">Search</a></li>
+				<li *ngIf="isLogged[0]" id="navBarMesages"><a routerLink="/messages" routerLinkActive="active" (click)="changeHeader('Messages', false, false, true, false);">Messages</a></li>
+				<li *ngIf="isLogged[0]" id="navBarContracts"><a routerLink="/contracts" routerLinkActive="active" (click)="changeHeader('Contracts', false, false, false, false);">Contracts</a></li>
+				<li *ngIf="isLogged[0]" id="navBarSettings"><a routerLink="/settings" routerLinkActive="active" (click)="changeHeader('Settings', false, false, false, false);">Settings</a></li>
+				<li *ngIf="isLogged[0]" id="navBarAccount"><a routerLink="/account" routerLinkActive="active" (click)="changeHeader('Account', false, false, false, false);">Account</a></li>
+				<li *ngIf="isLogged[0]" id="navBarAbout"><a routerLink="/about" routerLinkActive="active" (click)="changeHeader('About', false, false, false, false);">About</a></li>
+				<li *ngIf="isLogged[0]" id="navBarLogout"><a routerLink="/logout" routerLinkActive="active" (click)="changeHeader('Logout', false, false, false, false);">Logout</a></li>
 			</ul>
 		</div>
 		<div class="content" >
@@ -45,7 +45,7 @@ export class AppComponent {
 	isLogged=[false];
 
 	constructor(private authenticationService: AuthenticationService) {
-    authenticationService.isLogged$.subscribe(isLogged =>this.isLogged.push(isLogged));
+    authenticationService.isLogged$.subscribe(isLogged =>this.isLogged[0]=isLogged);
   }
 	changeHeader(headerTitle : string, add: boolean, backToItems: boolean, newmessage : boolean, backToMessages : boolean) {
 		this.headerTitle = headerTitle;
