@@ -3,6 +3,11 @@ import { Component } from '@angular/core';
 @Component({
 selector: 'search',
 template: `
+
+	<div class="header">
+            <h1 id="mainTitle">Search</h1>
+    </div>
+    
 	<div class="component">
 		<div class="search-input-group">
 			<span>

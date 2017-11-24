@@ -25,6 +25,7 @@ import { MessagesComponent }  from './messages.component';
 import { NewMessageComponent }  from './newmessage.component';
 import { SettingsComponent }  from './settings.component';
 import { AccountComponent }  from './account.component';
+import { ItemDetailsComponent }  from './item-details.component';
 
 @NgModule({
     imports: [
@@ -45,7 +46,8 @@ import { AccountComponent }  from './account.component';
 	MessagesComponent,
 	NewMessageComponent,
 	SettingsComponent,
-	AccountComponent
+	AccountComponent,
+    ItemDetailsComponent
     ],
     providers: [
         AuthGuard,

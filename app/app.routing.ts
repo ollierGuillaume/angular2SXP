@@ -12,6 +12,7 @@ import { MessagesComponent }  from './messages.component';
 import { NewMessageComponent }  from './newmessage.component';
 import { SettingsComponent }  from './settings.component';
 import { AccountComponent }  from './account.component';
+import { ItemDetailsComponent }  from './item-details.component';
 
 const appRoutes: Routes = [
     { path: '', component: HomeComponent, canActivate: [AuthGuard] },
@@ -24,7 +25,7 @@ const appRoutes: Routes = [
     { path: 'newmessage', component: NewMessageComponent },
     { path: 'settings', component: SettingsComponent },
     { path: 'account', component: AccountComponent },
-
+    { path: 'item-details/:itemID', component: ItemDetailsComponent },
     // otherwise redirect to home
     { path: '**', redirectTo: '' }
 ];

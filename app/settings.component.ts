@@ -3,6 +3,10 @@ import { Component } from '@angular/core';
 @Component({
 selector: 'settings',
 template: `
+	<div class="header">
+            <h1 id="mainTitle">Settings</h1>
+    </div>
+
 	<div class="component">
 
 	<h1>Settings of {{variable}}</h1>

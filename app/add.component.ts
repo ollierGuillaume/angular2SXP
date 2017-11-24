@@ -9,6 +9,11 @@ import { User } from './_models/index';
 moduleId: module.id,
 selector: 'add',
 template: `
+<div class="header">
+            <h1 id="mainTitle">Add Item</h1>
+            <div><a class="headerButton" [routerLink]="['/items']">\< Back</a></div>
+    </div>
+
 <div class="col-md-6 col-md-offset-3">
     <h2>Add a new item</h2>
     <form name="form" (ngSubmit)="f.form.valid && addItem()" #f="ngForm" novalidate>

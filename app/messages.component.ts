@@ -3,6 +3,12 @@ import { Component } from '@angular/core';
 @Component({
 selector: 'messages',
 template: `
+
+	<div class="header">
+            <h1 id="mainTitle">Messages</h1>
+            <div><a class="headerButton" [routerLink]="['/newmessage']">+ New</a></div>
+    </div>
+
 	<div class="component">
 	<h2>Inbox. TO BE DONE.</h2>
 

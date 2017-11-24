@@ -1,4 +1,4 @@
-﻿import { Component, OnInit, Output, EventEmitter} from '@angular/core';
+﻿import { Component, OnInit, Output, EventEmitter} from '@angular/core';//TODO
 import { Router } from '@angular/router';
 
 import { AlertService, AuthenticationService } from '../_services/index';
@@ -7,6 +7,11 @@ import { AlertService, AuthenticationService } from '../_services/index';
     selector: 'app-login',
     moduleId: module.id,
     template: `﻿
+
+    <div class="header">
+            <h1 id="mainTitle">Login</h1>
+    </div>
+
 <div class="col-md-6 col-md-offset-3">
     <h2>Login</h2>
     <form name="form" (ngSubmit)="f.form.valid && login()" #f="ngForm" novalidate>
