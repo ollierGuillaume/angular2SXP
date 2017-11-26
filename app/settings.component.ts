@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { User } from './_models/index';
+import { Router} from '@angular/router';
 
 @Component({
 selector: 'settings',
@@ -9,14 +11,18 @@ template: `
 
 	<div class="component">
 
-	<h1>Settings of {{variable}}</h1>
-	<input type="text" ng-model="variable" />
-	  <p>ici il y aura les paramètres</p>
+	<h1>Settings</h1>
+	<div> <p>Account name : {{currentUser.firstName}}</p> </div>
+	  <button [routerLink]="['/change-password']" class="btn btn-primary">Change password</button>
 	</div>
 `,
 
 })
 
 export class SettingsComponent {
+	currentUser: User;
+	constructor() {
+        this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    }
 	
 }

@@ -26,6 +26,7 @@ import { NewMessageComponent }  from './newmessage.component';
 import { SettingsComponent }  from './settings.component';
 import { AccountComponent }  from './account.component';
 import { ItemDetailsComponent }  from './item-details.component';
+import { ChangePasswordComponent }  from './change-password.component';
 
 @NgModule({
     imports: [
@@ -47,7 +48,8 @@ import { ItemDetailsComponent }  from './item-details.component';
 	NewMessageComponent,
 	SettingsComponent,
 	AccountComponent,
-    ItemDetailsComponent
+    ItemDetailsComponent,
+    ChangePasswordComponent
     ],
     providers: [
         AuthGuard,

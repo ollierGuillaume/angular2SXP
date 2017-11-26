@@ -13,6 +13,7 @@ import { NewMessageComponent }  from './newmessage.component';
 import { SettingsComponent }  from './settings.component';
 import { AccountComponent }  from './account.component';
 import { ItemDetailsComponent }  from './item-details.component';
+import { ChangePasswordComponent }  from './change-password.component';
 
 const appRoutes: Routes = [
     { path: '', component: HomeComponent, canActivate: [AuthGuard] },
@@ -26,6 +27,7 @@ const appRoutes: Routes = [
     { path: 'settings', component: SettingsComponent },
     { path: 'account', component: AccountComponent },
     { path: 'item-details/:itemID', component: ItemDetailsComponent },
+    { path: 'change-password', component: ChangePasswordComponent },
     // otherwise redirect to home
     { path: '**', redirectTo: '' }
 ];

@@ -38,7 +38,7 @@ import { AlertService, UserService } from '../_services/index';
 </div>
 `
 })
-
+ 
 export class RegisterComponent {
     model: any = {};
     loading = false;

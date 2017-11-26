@@ -5,6 +5,7 @@ import { AlertService, ItemService } from './_services/index';
 
 import { User } from './_models/index';
 
+
 @Component({
 moduleId: module.id,
 selector: 'add',
@@ -27,7 +28,11 @@ template: `
             <input type="text" class="form-control" name="description" [(ngModel)]="model.description" #description="ngModel" required />
             <div *ngIf="f.submitted && !description.valid" class="help-block">Description is required</div>
         </div>
-        <div class="form-group">
+
+        <label for="description">Picture</label>
+        <input type="file" id="selectFile" class="btn btn-success"/>
+
+        <div class="form-group" style="padding-top:20px">
             <button [disabled]="loading" class="btn btn-primary">Submit</button>
             <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
             <a [routerLink]="['/items']" class="btn btn-link">Cancel</a>
@@ -42,14 +47,16 @@ export class AddComponent {
     currentUser: User;
 
     model: any = {};
+    pathFile:string=null;
     //user: currentUser;
 
 		loading = false;
 
-		constructor(
+	constructor(
         private router: Router,
         private itemService: ItemService,
         private alertService: AlertService) {
+
         this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
     }
 
@@ -66,4 +73,12 @@ export class AddComponent {
                     this.loading = false;
                 });
     }
+    openFile() {}
 }
+
+//        <div *ngIf="pathFile!=null; else noFileTemplate">
+//            <u2>{{pathFile}}</u2>
+//        </div>
+//        <ng-template #noFileTemplate>
+//            <u2>No file selected</u2>
+//        <ng-template>
