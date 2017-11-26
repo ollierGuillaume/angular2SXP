@@ -13,7 +13,7 @@ import { routing }        from './app.routing';
 
 import { AlertComponent } from './_directives/index';
 import { AuthGuard } from './_guards/index';
-import { AlertService, AuthenticationService, UserService, ItemService } from './_services/index';
+import { AlertService, AuthenticationService, UserService, ItemService, MessageService, ContractService } from './_services/index';
 import { HomeComponent } from './home/index';
 import { LoginComponent } from './login/index';
 import { RegisterComponent } from './register/index';
@@ -27,6 +27,9 @@ import { SettingsComponent }  from './settings.component';
 import { AccountComponent }  from './account.component';
 import { ItemDetailsComponent }  from './item-details.component';
 import { ChangePasswordComponent }  from './change-password.component';
+import { NewContractComponent }  from './new-contract.component';
+import { ContractsComponent }  from './contract.component';
+
 
 @NgModule({
     imports: [
@@ -41,15 +44,17 @@ import { ChangePasswordComponent }  from './change-password.component';
         HomeComponent,
         LoginComponent,
         RegisterComponent,
-	ItemsComponent,
-	AddComponent,
-	SearchComponent,
-	MessagesComponent,
-	NewMessageComponent,
-	SettingsComponent,
-	AccountComponent,
-    ItemDetailsComponent,
-    ChangePasswordComponent
+	    ItemsComponent,
+	    AddComponent,
+	    SearchComponent,
+	    MessagesComponent,
+	    NewMessageComponent,
+	    SettingsComponent,
+	    AccountComponent,
+        ItemDetailsComponent,
+        ChangePasswordComponent,
+        NewContractComponent,
+        ContractsComponent
     ],
     providers: [
         AuthGuard,
@@ -57,7 +62,8 @@ import { ChangePasswordComponent }  from './change-password.component';
         AuthenticationService,
         UserService,
         ItemService,
-
+        MessageService,
+        ContractService,
         // providers used to create fake backend
         fakeBackendProvider,
         MockBackend,

@@ -17,10 +17,16 @@ template: `
     <h2>Change Password</h2>
 	<form name="form" (ngSubmit)="f.form.valid && register()" #f="ngForm" novalidate>
 
+        <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
+                <label for="password">Actual password</label>
+                <input type="password" class="form-control" name="password" [(ngModel)]="actualPassword" #password="ngModel" required />
+                <div *ngIf="f.submitted && !password.valid" class="help-block">Actual password is required</div>
+                <div *ngIf="f.submitted && actualPassword!=currentUser.password" class="help-block">Actual password is not correct</div>
+        </div>
 		<div class="form-group" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
     	        <label for="password">New password</label>
         	    <input type="password" class="form-control" name="password" [(ngModel)]="model.password" #password="ngModel" required />
-            	<div *ngIf="f.submitted && !password.valid" class="help-block">Password is required</div>
+            	<div *ngIf="f.submitted && !password.valid" class="help-block">New password is required</div>
 	    </div>
     	<div class="form-group" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
         	    <label for="password">Confirm password</label>
@@ -44,6 +50,7 @@ export class ChangePasswordComponent {
 	model: any = {};
     loading = false;
 	confirmation: string;
+    actualPassword: string;
     currentUser: User;
 
 	constructor(

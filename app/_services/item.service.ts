@@ -30,7 +30,7 @@ export class ItemService {
 
     getItemsByUserId () {
       return this.http.get('/api/items/', this.jwt()).map((response: Response) => response.json());
-    }
+    }//ne fonctionne pas!
 
     // private helper methods
     private jwt() {

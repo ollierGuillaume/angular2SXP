@@ -14,6 +14,8 @@ import { SettingsComponent }  from './settings.component';
 import { AccountComponent }  from './account.component';
 import { ItemDetailsComponent }  from './item-details.component';
 import { ChangePasswordComponent }  from './change-password.component';
+import { NewContractComponent }  from './new-contract.component';
+import { ContractsComponent }  from './contract.component';
 
 const appRoutes: Routes = [
     { path: '', component: HomeComponent, canActivate: [AuthGuard] },
@@ -28,6 +30,8 @@ const appRoutes: Routes = [
     { path: 'account', component: AccountComponent },
     { path: 'item-details/:itemID', component: ItemDetailsComponent },
     { path: 'change-password', component: ChangePasswordComponent },
+    { path: 'new-contract', component: NewContractComponent },
+    { path: 'contracts', component: ContractsComponent },
     // otherwise redirect to home
     { path: '**', redirectTo: '' }
 ];

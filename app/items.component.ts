@@ -50,8 +50,8 @@ import { Router} from '@angular/router';
                 <th>  Item</th>
                 <th>ID</th>
                 <tr *ngFor="let item of items" [routerLink]="['/item-details',item.id]">
-                    <td>{{item.title}}</td>
-                    <td>{{item.id}}</td>
+                    <td *ngIf="item.userId==currentUser.id">{{item.title}}</td>
+                    <td *ngIf="item.userId==currentUser.id">{{item.id}}</td>
                 </tr>
             </table>
 
