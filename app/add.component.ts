@@ -76,9 +76,3 @@ export class AddComponent {
     openFile() {}
 }
 
-//        <div *ngIf="pathFile!=null; else noFileTemplate">
-//            <u2>{{pathFile}}</u2>
-//        </div>
-//        <ng-template #noFileTemplate>
-//            <u2>No file selected</u2>
-//        <ng-template>

@@ -17,6 +17,8 @@ import { Router} from '@angular/router';
             <div><a class="headerButton" [routerLink]="['/new-contract']">+ Add</a></div>
     </div>
 
+    
+
   `
   
 })

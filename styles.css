@@ -386,6 +386,16 @@ button, input, optgroup, select, textarea {
     border-color: #d58512;
 }
 
+.btn-contract {
+    color: #fff;
+    background-color: #ea0f0f; 
+    border-color: #d58512;
+}
+.btn-contract:hover {
+    color: #fff;
+    background-color: #EB4D4D; 
+    border-color: #d58512;
+}
 textarea {
     overflow: auto;
 }
