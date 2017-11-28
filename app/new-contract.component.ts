@@ -43,22 +43,28 @@ import { Item,User, Clause } from './_models/index';
         <div>
             <label style="margin-top:30px;">From</label>
             <select [(ngModel)]="fromUser" style="margin-top:10px; margin-left:20px">
-                 <option *ngFor="let user of parties" value={{user.id}}>{{user.username}}</option>
+                 <option *ngFor="let user of parties" value={{user.username}}>{{user.username}}</option>
             </select>
         </div>
         <div>
             <label style="margin-top:30px;">Gives</label>
             <select [(ngModel)]="itemGived" style="margin-top:10px; margin-left:20px">
-                 <option *ngFor="let item of items" value={{item.id}}>{{item.title}}</option>
+                 <option *ngFor="let item of items" value={{item.title}}>{{item.title}}</option>
             </select>
         </div>
         <div>
             <label style="margin-top:30px;">For</label>
             <select [(ngModel)]="forUser" style="margin-top:10px; margin-left:20px">
-                 <option *ngFor="let user of parties" value={{user.id}}>{{user.username}}</option>
+                 <option *ngFor="let user of parties" value={{user.username}}>{{user.username}}</option>
             </select>
         </div>
         <button class="btn btn-contract" style="margin-top:10px" (click)="addClause()">Add Clause</button>
+
+        <div>
+            <button (click)="register()" [disabled]="loading" class="btn btn-primary">Register</button>
+                <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                <a [routerLink]="['/login']" class="btn btn-link">Cancel</a>
+        </div>
     </div>
 	`
 })
@@ -89,8 +95,9 @@ export class NewContractComponent  {
 
         this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
         this.parties=[];
+        this.clauses=[];
         this.loadAllUsers();
-        this.initClauses();
+        //this.initClauses();
         this.loadAllItems();
     }
 
@@ -108,13 +115,31 @@ export class NewContractComponent  {
                 });
     }
 
-    register(){}
+    register() {
+        this.loading = true;
+        this.model.clauses=this.clauses;
+        this.contractService.create(this.model)
+            .subscribe(
+                data => {
+                    console.log("success");
+                    this.alertService.success('Registration successful', true);
+                    this.router.navigate(['/contracts']);
+                },
+                error => {
+                    console.log("error");
+                    this.alertService.error(error);
+                    this.loading = false;
+                });
+    }
 
     private loadAllUsers() {
         this.userService.getAll().subscribe(users => { 
             this.allUsers=users;
-            //this.parties=parties;
         });
+    }
+
+    private loadAllItems() {
+        this.itemService.getAll().subscribe(items => { this.items = items; });
     }
 
     delete(user: User){
@@ -124,10 +149,9 @@ export class NewContractComponent  {
     addParty(){
         var user=this.allUsers.filter(user => ""+user.id==this.chosenParty);
         this.parties=this.parties.concat(user);
-        //this.parties.push();
     }
 
-    initClauses(){
+    /*initClauses(){
         let clause1=new Clause();
         clause1.fromId=1;
         clause1.forId=2;
@@ -150,13 +174,20 @@ export class NewContractComponent  {
         clause3.forUsername="bbbzzzzzbb";
         clause3.itemName="item3"
         this.clauses=[clause1,clause2,clause3];
-    }
+    }*/
 
-    private loadAllItems() {
-        this.itemService.getAll().subscribe(items => { this.items = items; });
-    }
 
-    private addClause(){}
+    private addClause(){
+        let clause=new Clause();
+        clause.forUsername=this.forUser;
+        clause.fromUsername=this.fromUser;
+        clause.itemName=this.itemGived;
+        console.log("forUser:"+clause.forUsername+" fromUser:"+clause.fromUsername+" item:"+clause.itemName);
+        clause.forId=this.allUsers.filter(partie => partie.username == this.forUser).pop().id;
+        clause.fromId=this.allUsers.filter(partie => partie.username == this.fromUser).pop().id;
+        clause.itemId=this.items.filter(item => item.title== this.itemGived).pop().id;
+        this.clauses.push(clause);
+    }
 }
 
 // <form name="form" (ngSubmit)="f.form.valid && register()" #f="ngForm" novalidate>

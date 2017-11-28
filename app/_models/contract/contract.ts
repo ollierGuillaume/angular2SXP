@@ -2,5 +2,5 @@ import { Clause } from './clause' ;
 export class Contract {
     id: number;
     title: string;
-    clause: Clause[];
+    clauses: Clause[];
 }
