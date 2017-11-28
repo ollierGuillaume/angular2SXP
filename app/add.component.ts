@@ -29,7 +29,7 @@ template: `
             <div *ngIf="f.submitted && !description.valid" class="help-block">Description is required</div>
         </div>
 
-        <label for="description">Picture</label>
+        <label for="picture">Picture</label>
         <input type="file" id="selectFile" class="btn btn-success"/>
 
         <div class="form-group" style="padding-top:20px">

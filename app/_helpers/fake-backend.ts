@@ -1,4 +1,4 @@
-﻿import { Http, BaseRequestOptions, Response, ResponseOptions, RequestMethod } from '@angular/http';
+import { Http, BaseRequestOptions, Response, ResponseOptions, RequestMethod } from '@angular/http';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 
 import { User } from '../_models/index';
@@ -12,12 +12,15 @@ export let fakeBackendProvider = {
         // array in local storage for saved items
         let items: any[] = JSON.parse(localStorage.getItem('items')) || [];
 
+        let contracts: any[] = JSON.parse(localStorage.getItem('items')) || [];
+
         //store curent user
         //let currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
         // configure fake backend
         backend.connections.subscribe((connection: MockConnection) => {
             // wrap in timeout to simulate server api call
+            console.log("call");
             setTimeout(() => {
 
                 // authenticate
@@ -112,6 +115,8 @@ export let fakeBackendProvider = {
                     }
                 }
 
+
+
                 // create user
                 if (connection.request.url.endsWith('/api/users') && connection.request.method === RequestMethod.Post) {
                     // get new user object from post body
@@ -132,6 +137,24 @@ export let fakeBackendProvider = {
                     connection.mockRespond(new Response(new ResponseOptions({ status: 200 })));
                 }
 
+                //update user
+                if (connection.request.url.match(/\/api\/users\/\d+$/) && connection.request.method === RequestMethod.Put) {
+                        let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+                        let modifiedUser = JSON.parse(connection.request.getBody());
+                        let matchedUsers = users.filter(user => { return user.id === currentUser.id; });
+                        if (matchedUsers.length ) {
+                       
+                            let matchedUser = matchedUsers[0];
+                            matchedUser.password=modifiedUser.password;
+                            console.log("matchedUserPwd:"+matchedUser.password+" "+modifiedUser.password);
+                            users=users.map(function(user) { return user.id == matchedUser.id ? matchedUser : user; });
+                            localStorage.setItem('users', JSON.stringify(users));
+                            //matchedUsers = users.filter(user => { return user.id === currentUser.id; });//a supprimer
+                            connection.mockRespond(new Response(new ResponseOptions({ status: 200 })));
+                        }
+                        else { connection.mockRespond(new Response(new ResponseOptions({ status: 401 }))); }
+
+                }
                 // delete user
                 if (connection.request.url.match(/\/api\/users\/\d+$/) && connection.request.method === RequestMethod.Delete) {
                     // check for fake auth token in header and return user if valid, this security is implemented server side in a real application
@@ -206,8 +229,30 @@ export let fakeBackendProvider = {
                     }
                 }
 
-            }, 500);
+                // create contract
+                if (connection.request.url.endsWith('/api/contracts') && connection.request.method === RequestMethod.Post) {
+                    // get new user object from post body
+                    console.log("fakebackend-create-contract");
+                    let newContract = JSON.parse(connection.request.getBody());
+                    // get currentUser
+                    let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+                    /*// validation
+                    let duplicateItems = items.filter(item => { return item.title === newItem.title; }).length;
+                    if (duplicateItem) {
+                        return connection.mockError(new Error('Itemname "' + newItem.title + '" is already taken'));
+                    }*/
 
+                    // save new item
+                    newContract.id = contracts.length + 1;
+                    //newContract.userId = currentUser.id;
+                    contracts.push(newContract);
+                    localStorage.setItem('contracts', JSON.stringify(items));
+
+                    // respond 200 OK
+                    connection.mockRespond(new Response(new ResponseOptions({ status: 200 })));
+                }
+
+            }, 500);
         });
 
         return new Http(backend, options);

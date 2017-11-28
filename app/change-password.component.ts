@@ -21,7 +21,7 @@ template: `
                 <label for="password">Actual password</label>
                 <input type="password" class="form-control" name="password" [(ngModel)]="actualPassword" #password="ngModel" required />
                 <div *ngIf="f.submitted && !password.valid" class="help-block">Actual password is required</div>
-                <div *ngIf="f.submitted && actualPassword!=currentUser.password" class="help-block">Actual password is not correct</div>
+                
         </div>
 		<div class="form-group" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
     	        <label for="password">New password</label>
@@ -45,7 +45,7 @@ template: `
 
 	`
 })
-
+ 
 export class ChangePasswordComponent {
 	model: any = {};
     loading = false;
@@ -59,12 +59,14 @@ export class ChangePasswordComponent {
         private alertService: AlertService) {
 
         this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
-
-        this.model.firstName=this.currentUser.firstName;
-        this.model.lastName=this.currentUser.lastName;
-        this.model.username=this.currentUser.username;
+        console.log("password:"+this.currentUser.password+" "+"username:"+this.currentUser.username+" id:"+this.currentUser.id);
+        this.model.id=this.currentUser.id;
+        //this.model.firstName=this.currentUser.firstName;
+        //this.model.lastName=this.currentUser.lastName;
+        //this.model.username=this.currentUser.username;
     }
     register() {
+        //console.log(this.model.id+" "+this.model.firstName+" "+this.model.lastName+" "+this.model.username+" "+this.model.password);
         this.loading = true;
         this.userService.update(this.model)
             .subscribe(

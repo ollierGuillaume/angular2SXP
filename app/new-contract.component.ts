@@ -116,6 +116,7 @@ export class NewContractComponent  {
     }
 
     register() {
+        console.log("register() called");
         this.loading = true;
         this.model.clauses=this.clauses;
         this.contractService.create(this.model)
@@ -130,6 +131,7 @@ export class NewContractComponent  {
                     this.alertService.error(error);
                     this.loading = false;
                 });
+                console.log(JSON.stringify(this.model));
     }
 
     private loadAllUsers() {
