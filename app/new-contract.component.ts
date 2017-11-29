@@ -26,7 +26,7 @@ import { Item,User, Clause } from './_models/index';
             <ul style="float: left; margin-right:20px; margin-top:10px">
                 id:{{partie.username}}-{{partie.id}}
             </ul>
-            <button class="btn btn-contract" style="margin-top:10px" (click)="delete(partie)">Delete</button> 
+            <button class="btn btn-contract" style="margin-top:10px" (click)="deleteParty(partie)">Delete</button> 
         </div>
         <select [(ngModel)]="chosenParty" style="margin-top:10px; margin-right:20px">
              <option *ngFor="let user of allUsers" value={{user.id}}>{{user.username}}</option>
@@ -38,7 +38,8 @@ import { Item,User, Clause } from './_models/index';
         <label style="margin-top:30px">Clauses</label>
         </div>
         <div *ngFor="let clause of clauses">
-            <ul>{{clause.fromUsername}}: {{clause.fromId}} gives {{clause.itemName}} to {{clause.forUsername}}: {{clause.forId}}</ul>
+            <ul style="float: left; margin-right:20px; margin-top:10px">{{clause.fromUsername}}: {{clause.fromId}} gives {{clause.itemName}} to {{clause.forUsername}}: {{clause.forId}}</ul>
+            <button class="btn btn-contract" style="margin-top:10px" (click)="deleteClause(clause)">Delete</button> 
         </div>
         <div>
             <label style="margin-top:30px;">From</label>
@@ -122,16 +123,16 @@ export class NewContractComponent  {
         this.contractService.create(this.model)
             .subscribe(
                 data => {
-                    console.log("success");
+
                     this.alertService.success('Registration successful', true);
                     this.router.navigate(['/contracts']);
                 },
                 error => {
-                    console.log("error");
+
                     this.alertService.error(error);
                     this.loading = false;
                 });
-                console.log(JSON.stringify(this.model));
+                //console.log(JSON.stringify(this.model));
     }
 
     private loadAllUsers() {
@@ -144,9 +145,13 @@ export class NewContractComponent  {
         this.itemService.getAll().subscribe(items => { this.items = items; });
     }
 
-    delete(user: User){
+    deleteParty(user: User){
         this.parties = this.parties.filter(partie => partie.id != user.id);
         console.log(user.id);
+    }
+
+    deleteClause(clause:Clause){
+        this.clauses = this.clauses.filter(clauseGot => clause.forId != clauseGot.forId || clause.fromId != clauseGot.fromId || clause.itemId != clauseGot.itemId);
     }
     addParty(){
         var user=this.allUsers.filter(user => ""+user.id==this.chosenParty);
