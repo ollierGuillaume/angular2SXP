@@ -30,7 +30,7 @@ template: `
         </div>
 
         <label for="picture">Picture</label>
-        <input type="file" id="selectFile" class="btn btn-success"/>
+        <input type="file" id="selectFile" class="btn btn-success" (change)="openFile($event)"/>
 
         <div class="form-group" style="padding-top:20px">
             <button [disabled]="loading" class="btn btn-primary">Submit</button>
@@ -48,6 +48,7 @@ export class AddComponent {
 
     model: any = {};
     pathFile:string=null;
+    url:string;
     //user: currentUser;
 
 		loading = false;
@@ -62,6 +63,7 @@ export class AddComponent {
 
     addItem() {
         this.loading = true;
+        this.model.url=this.url;
         this.itemService.create(this.model)
             .subscribe(
                 data => {
@@ -73,6 +75,19 @@ export class AddComponent {
                     this.loading = false;
                 });
     }
-    openFile() {}
+
+    openFile(event:any) {
+
+        if (event.target.files && event.target.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = (event:any) => {
+              this.url = event.target.result;
+            }
+            console.log(this.url);
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    }
+    
 }
 

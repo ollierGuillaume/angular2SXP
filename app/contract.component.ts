@@ -17,7 +17,7 @@ import { Router} from '@angular/router';
             <div><a class="headerButton" [routerLink]="['/new-contract']">+ Add</a></div>
     </div>
 
-    <div *ngFor="let contract of contracts">
+    <div style="margin-top:30px;" *ngFor="let contract of contracts">
         <ul>{{contract.title}}:</ul>
         <li *ngFor="let clause of contract.clauses">
             {{clause.fromUsername}} gives {{clause.itemName}} to {{clause.forUsername}}
@@ -36,7 +36,7 @@ export class ContractsComponent {
 
     constructor(private contractService: ContractService, private router :Router) {
         this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        this.loadAllContracts();
+        this.loadUserContracts();
         //console.log("clause length"+this.contracts.length);
     }
 
@@ -53,10 +53,16 @@ export class ContractsComponent {
         this.contractService.getAll().subscribe(contracts => { this.contracts = contracts; });
     }
 
-    /*private loadUsersContracts() {
+    private isUserContract(contract: Contract){
+        let response=false;
+        contract.clauses.map(clause=>{if(clause.forId==this.currentUser.id || clause.fromId==this.currentUser.id) response=true; });
+        console.log("isUserContract:"+response);
+        return response;
+    }
+    private loadUserContracts() {
       this.contractService.getAll().subscribe(contracts => { this.contracts = contracts; });
-      this.contracts=this.contracts.filter(contract=>(isUserContract(contract)))
-    }*/
+      this.contracts=this.contracts.filter(contract=>(this.isUserContract(contract)))
+    }
 
 
 }

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router, ActivatedRoute} from '@angular/router';
-import { ItemService } from './_services/index';
+import { ItemService, AlertService } from './_services/index';
 import { Item } from './_models/index';
 @Component({
   
@@ -18,21 +18,40 @@ import { Item } from './_models/index';
             </h2>
             <ul *ngIf="item.id==getItemId()">
                 {{item.description}}
-                {{item.picture}}
             </ul>
+            <div *ngIf="item.id==getItemId()">
+                <img src={{item.url}} width="500px"/>
+            </div>
         </div>
+        <button style="margin-top:30px;" (click)="delete()" [disabled]="loading" class="btn btn-primary">Delete</button>
     </div>
 	`
 })
 
 export class ItemDetailsComponent  {
 	private items : Item[];
+    private loading=false;
 	//private item : Item;
-	constructor(private route: ActivatedRoute, private itemService : ItemService){
+	constructor(private router: Router,private route: ActivatedRoute, private itemService : ItemService, private alertService: AlertService){
 		itemService.getAll().subscribe(items => { this.items = items; }); //TODO (!) code sale!!recuperer le bon item avec itemservice.getById(id)
 	}
 
 	getItemId(){
 		return this.route.snapshot.params["itemID"];
 	}
+
+    delete(){
+        this.itemService.delete(this.getItemId())
+            .subscribe(
+                data => {
+
+                    this.alertService.success('Delete successful', true);
+                    this.router.navigate(['/items']);
+                },
+                error => {
+ 
+                    this.alertService.error(error);
+                    this.loading = false;
+                });
+    }
 }

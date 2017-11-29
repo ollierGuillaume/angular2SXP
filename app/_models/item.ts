@@ -3,4 +3,5 @@ export class Item {
     userId: number;
     title: string;
     description: string;
+    url:string;
 }
