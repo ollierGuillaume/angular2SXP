@@ -12,7 +12,7 @@ export let fakeBackendProvider = {
         // array in local storage for saved items
         let items: any[] = JSON.parse(localStorage.getItem('items')) || [];
 
-        let contracts: any[] = JSON.parse(localStorage.getItem('items')) || [];
+        let contracts: any[] = JSON.parse(localStorage.getItem('contracts')) || [];
 
         //store curent user
         //let currentUser = JSON.parse(localStorage.getItem('currentUser'));
@@ -246,10 +246,29 @@ export let fakeBackendProvider = {
                     newContract.id = contracts.length + 1;
                     //newContract.userId = currentUser.id;
                     contracts.push(newContract);
-                    localStorage.setItem('contracts', JSON.stringify(items));
+                    localStorage.setItem('contracts', JSON.stringify(contracts));
 
                     // respond 200 OK
                     connection.mockRespond(new Response(new ResponseOptions({ status: 200 })));
+                }
+
+                //get contract
+                if (connection.request.url.match('/api/contracts') && connection.request.method === RequestMethod.Get) {
+                    // check for fake auth token in header and return user if valid, this security is implemented server side in a real application
+                    if (connection.request.headers.get('Authorization') === 'Bearer fake-jwt-token') {
+                        // find contracts by id in contracts array
+                        //let urlPartsItems = connection.request.url.split('/');
+                        //let id = parseInt(urlPartsItems[urlPartsItems.length - 1]);
+                        //let matchedContracts = contracts.filter(contract => { return contract.id === id; });
+                        //let contract = matchedContracts.length ? matchedContracts[0] : null;
+                        console.log("length contract:"+contracts.length);
+                        console.log(JSON.stringify(contracts));
+                        // respond 200 OK with item
+                        connection.mockRespond(new Response(new ResponseOptions({ status: 200, body: contracts })));
+                    } else {
+                        // return 401 not authorised if token is null or invalid
+                        connection.mockRespond(new Response(new ResponseOptions({ status: 401 })));
+                    }
                 }
 
             }, 500);

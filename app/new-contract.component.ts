@@ -60,7 +60,7 @@ import { Item,User, Clause } from './_models/index';
         </div>
         <button class="btn btn-contract" style="margin-top:10px" (click)="addClause()">Add Clause</button>
 
-        <div>
+        <div style="margin-top:30px;">
             <button (click)="register()" [disabled]="loading" class="btn btn-primary">Register</button>
                 <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
                 <a [routerLink]="['/login']" class="btn btn-link">Cancel</a>
@@ -153,6 +153,18 @@ export class NewContractComponent  {
         this.parties=this.parties.concat(user);
     }
 
+    private addClause(){
+        let clause=new Clause();
+        clause.forUsername=this.forUser;
+        clause.fromUsername=this.fromUser;
+        clause.itemName=this.itemGived;
+        console.log("forUser:"+clause.forUsername+" fromUser:"+clause.fromUsername+" item:"+clause.itemName);
+        clause.forId=this.allUsers.filter(partie => partie.username == this.forUser)[0].id;
+        clause.fromId=this.allUsers.filter(partie => partie.username == this.fromUser)[0].id;
+        clause.itemId=this.items.filter(item => item.title== this.itemGived)[0].id;
+        this.clauses.push(clause);
+    }
+
     /*initClauses(){
         let clause1=new Clause();
         clause1.fromId=1;
@@ -178,18 +190,6 @@ export class NewContractComponent  {
         this.clauses=[clause1,clause2,clause3];
     }*/
 
-
-    private addClause(){
-        let clause=new Clause();
-        clause.forUsername=this.forUser;
-        clause.fromUsername=this.fromUser;
-        clause.itemName=this.itemGived;
-        console.log("forUser:"+clause.forUsername+" fromUser:"+clause.fromUsername+" item:"+clause.itemName);
-        clause.forId=this.allUsers.filter(partie => partie.username == this.forUser).pop().id;
-        clause.fromId=this.allUsers.filter(partie => partie.username == this.fromUser).pop().id;
-        clause.itemId=this.items.filter(item => item.title== this.itemGived).pop().id;
-        this.clauses.push(clause);
-    }
 }
 
 // <form name="form" (ngSubmit)="f.form.valid && register()" #f="ngForm" novalidate>
